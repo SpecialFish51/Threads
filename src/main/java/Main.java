@@ -8,7 +8,6 @@ import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,39 +26,34 @@ public class Main {
             new Thread(messenger).start();
         });
 
-        chronometer.countTime(messengers,20);
-        //Не удалось заставить работать =,(
-       /* BlockingQueue<String> queue = new LinkedBlockingQueue<>(2);
-        String filePath = new File("resources","Voina_i_mir").getAbsolutePath();
-        Consumer consumer = new Consumer() {
-            @Override
-            public void accept(Object o) {
+        chronometer.countTime(messengers, 20);
 
-            }
-        };
+        BlockingQueue<String> queue = new LinkedBlockingQueue<>(2);
+        String filePath = new File("/Users/macmini/IdeaProjects/Threads/Voina_i_mir").getAbsolutePath();
+        Consumer consumer = new Consumer(queue);
         Thread consumerThread = new Thread(consumer);
 
-        Thread producerThread = new Thread(()->{
+        Thread producerThread = new Thread(() -> {
             Scanner scanner = null;
             String foundWord;
-            try{
+            try {
                 scanner = new Scanner(new FileReader(filePath));
 
-        }catch (FileNotFoundException e) {
+            } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 
             while ((scanner.hasNextLine())) {
                 String line = scanner.nextLine();
-                Pattern pattern = Pattern.compile("страдан", Pattern.CASE_INSENSITIVE);
+                Pattern pattern = Pattern.compile("страда", Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(line);
 
                 while (matcher.find()) {
                     foundWord = matcher.group();
-                    System.out.println("Producer" + foundWord);
+
                     try {
                         queue.put(foundWord);
-                    }catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         System.out.println("Ошибка".concat(e.getMessage()));
                     }
                 }
@@ -74,8 +68,11 @@ public class Main {
             producerThread.join();
             consumerThread.join();
         } catch (InterruptedException e) {
-            e.printStackTrace();*/
+            e.printStackTrace();
         }
+        System.out.println(consumer.count + " " + "Вхождений на слово страдание");
+    }
+}
         /* Thread thread1 = new Thread() {
             @Override
             public void run() {
@@ -104,4 +101,3 @@ public class Main {
         thread1.start();
         new Thread(new TenSecondsWaiter()).start(); ;
         System.out.println("Main thread");*/
-    }
